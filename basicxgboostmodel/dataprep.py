@@ -28,19 +28,19 @@ train_df, test_df = train_test_split(
 infer_df = test_df.drop(columns=["class"])
 
 # Create a directory named 'data' if it doesn't already exist
-os.makedirs("data", exist_ok=True)
+os.makedirs("basicxgboostmodel/data", exist_ok=True)
 
 # Save the training DataFrame to a CSV file without index or header
-train_df.to_csv("data/iris_train.csv", index=False, header=None)
+train_df.to_csv("basicxgboostmodel/data/iris_train.csv", index=False, header=None)
 
 # Save the testing DataFrame to a CSV file without index or header
-test_df.to_csv("data/iris_test.csv", index=False, header=None)
+test_df.to_csv("basicxgboostmodel/data/iris_test.csv", index=False, header=None)
 
 # Save the inference DataFrame to a CSV file without index or header
-infer_df.to_csv("data/iris_infer.csv", index=False, header=None)
+infer_df.to_csv("basicxgboostmodel/data/iris_infer.csv", index=False, header=None)
 
 # Save the original DataFrame (with the class column) to a CSV file
-df.to_csv("data/originaldata.csv", index=False)
+df.to_csv("basicxgboostmodel/data/originaldata.csv", index=False)
 
 # Initialize a boto3 client for S3
 s3 = boto3.client('s3')
@@ -51,10 +51,10 @@ s3_bucket_path = "project1/data/"
 
 # List of files to upload to S3
 files_to_upload = [
-    "data/iris_train.csv",
-    "data/iris_test.csv",
-    "data/iris_infer.csv",
-    "data/originaldata.csv"
+    "basicxgboostmodel/data/iris_train.csv",
+    "basicxgboostmodel/data/iris_test.csv",
+    "basicxgboostmodel/data/iris_infer.csv",
+    "basicxgboostmodel/data/originaldata.csv"
 ]
 
 # Loop through the list of files and upload each one to S3
