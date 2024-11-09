@@ -1,28 +1,23 @@
 """Loading data from S3 and saving back the model artifacts """
 
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+import joblib
 import os
-import argparse
 
-def data_preparation():
-    input_data_path = os.path.join("/opt/ml/processing/input", "originaldata.csv")
-    df = pd.read_csv(input_data_path)
-    
-    df = df.dropna()
-    scaler = StandardScaler()
-    scaled_features = scaler.fit_transform(df.iloc[:, 1:])
-    df_scaled = pd.DataFrame(scaled_features, columns=df.columns[1:])
-    df_scaled.insert(0, df.columns[0], df.iloc[:, 0].values)
-    
-    train_df, test_df = train_test_split( df_scaled, test_size=0.33, random_state=42, stratify=df["class"] )
-    
-    train_path = os.path.join("/opt/ml/processing/train", "train_iris.csv")
-    test_path = os.path.join("/opt/ml/processing/test", "test_iris.csv")
-    
-    train_df.to_csv(train_path, header=False, index=False)
-    test_df.to_csv(test_path, header=False, index=False)
+def train_model():
+    input_data_path = os.path.join("/opt/ml/input/data/train", "train_iris.csv")
+    #input_data_path = "data/iris_train.csv"
+    df = pd.read_csv(input_data_path, header=None)
+    X_train = df.iloc[:, 1:]
+    y_train = df.iloc[:, 0]
+    model = LogisticRegression(solver='liblinear')
+    print("Training LR model")
+    model.fit(X_train, y_train)
+    model_output_directory = os.path.join("/opt/ml/model", "lrmodeliris.joblib")
+    #model_output_directory = os.path.join("data", "lrmodeliris.joblib")
+    print(f"Saving model to {model_output_directory}")
+    joblib.dump(model, model_output_directory)
     
 if __name__ == "__main__":
-    data_preparation()
+    train_model()
