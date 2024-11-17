@@ -2,7 +2,8 @@
 
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
-import joblib
+#import joblib
+from sklearn.externals import joblib
 import os
 
 def train_model():

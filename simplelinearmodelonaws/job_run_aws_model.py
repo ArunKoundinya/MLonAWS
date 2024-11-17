@@ -28,7 +28,7 @@ def run_sagemaker_processing_job():
     role=role,
     instance_count=1,
     instance_type="ml.m5.large",
-    framework_version="0.23-1",
+    framework_version="0.20.0",
     py_version="py3",
     output_path=output_path,
     )
